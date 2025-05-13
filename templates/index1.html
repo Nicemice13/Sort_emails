@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .email {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .subject {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .body {
+            white-space: pre-line;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+
+    {% for email in emails %}
+    <div class="email">
+        <div class="subject">{{ email.subject }}</div>
+        <div class="meta">
+            <strong>От:</strong> {{ email.sender }} |
+            <strong>Дата:</strong> {{ email.date }}
+        </div>
+        <div class="body">
+            {{ email.body[:500] }}{% if email.body|length > 500 %}...{% endif %}
+        </div>
+    </div>
+    {% else %}
+    <p>Писем не найдено.</p>
+    {% endfor %}
+</body>
+</html>

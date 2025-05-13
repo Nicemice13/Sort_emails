@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Email Manager{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="nav">
+        <a href="/" class="{{ 'active' if request.url.path == '/' else '' }}">Главная</a>
+        <a href="/emails" class="{{ 'active' if request.url.path == '/emails' else '' }}">Письма</a>
+        <a href="/categories" class="{{ 'active' if request.url.path == '/categories' else '' }}">Категории</a>
+        <a href="/stats" class="{{ 'active' if request.url.path == '/stats' else '' }}">Статистика</a>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>{% block header %}Email Manager{% endblock %}</h1>
+        </div>
+        
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
+    

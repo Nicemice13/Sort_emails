@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+{% block title %}Email Manager - Письма{% endblock %}
+
+{% block header %}Письма{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form class="search-form" action="/emails" method="get">
+        <input type="text" name="query" placeholder="Поиск по теме или отправителю" class="search-input" value="{{ query }}">
+        <button type="submit" class="search-button">Поиск</button>
+    </form>
+    
+    <div class="email-list">
+        {% for email in emails %}
+        <div class="email-item">
+            <div class="email-subject">{{ email.subject }}</div>
+            <div class="email-sender">От: {{ email.sender }}</div>
+            <div class="email-date">Дата: {{ email.date }}</div>
+            <div class="email-body">{{ email.body[:200] }}{% if email.body|length > 200 %}...{% endif %}</div>
+            {% if email.categories %}
+            <div class="email-categories">
+                {% for category in email.categories %}
+                <span class="badge">{{ category }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <p>Писем не найдено.</p>
+        {% endfor %}
+    </div>
+    
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="/emails?page={{ page - 1 }}&query={{ query }}">&laquo; Предыдущая</a>
+        {% endif %}
+        
+        {% for p in range(1, total_pages + 1) %}
+        <a href="/emails?page={{ p }}&query={{ query }}" class="{{ 'active' if p == page else '' }}">{{ p }}</a>
+        {% endfor %}
+        
+        {% if page < total_pages %}
+        <a href="/emails?page={{ page + 1 }}&query={{ query }}">Следующая &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+    

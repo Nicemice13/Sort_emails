@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+
+{% block title %}Email Manager - Статистика{% endblock %}
+
+{% block header %}Статистика{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Общая статистика</h2>
+    <p>Всего писем: <strong>{{ stats.total_emails }}</strong></p>
+    <p>Обработано: <strong>{{ stats.processed_emails }}</strong></p>
+    <p>Не обработано: <strong>{{ stats.unprocessed_emails }}</strong></p>
+    
+    <h2>Статистика по категориям</h2>
+    <ul>
+        {% for category in stats.categories %}
+        <li>{{ category.name }}: {{ category.count }} писем</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Топ отправителей</h2>
+    <ul>
+        {% for sender in stats.top_senders %}
+        <li>{{ sender.sender }}: {{ sender.count }} писем</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+    

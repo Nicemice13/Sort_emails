@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% block title %}Email Manager - Категории{% endblock %}
+
+{% block header %}Категории{% endblock %}
+
+{% block content %}
+<div class="card">
+    <ul>
+        {% for category in categories %}
+        <li>
+            <strong>{{ category.name }}</strong>
+            {% if category.description %}
+            <p>{{ category.description }}</p>
+            {% endif %}
+            <p>Писем в категории: {{ category.count }}</p>
+        </li>
+        {% else %}
+        <p>Категорий не найдено.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+    
