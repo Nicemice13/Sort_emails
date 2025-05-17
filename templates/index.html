@@ -1,34 +1,25 @@
 
 {% extends "base.html" %}
 
-{% block title %}Email Manager - Главная{% endblock %}
+{% block title %}Simple FastAPI App - Главная{% endblock %}
 
-{% block header %}Добро пожаловать в Email Manager{% endblock %}
+{% block header %}Добро пожаловать в Simple FastAPI App{% endblock %}
 
 {% block content %}
 <div class="card">
-    <h2>О проекте</h2>
-    <p>Этот проект предназначен для управления электронными письмами из почтового ящика mail.ru.</p>
+    <h2>О приложении</h2>
+    <p>Это простое приложение на FastAPI с базовыми функциями.</p>
     <p>Используйте навигационное меню для доступа к различным функциям:</p>
     <ul>
-        <li><strong>Письма</strong> - просмотр и поиск писем</li>
-        <li><strong>Категории</strong> - управление категориями писем</li>
-        <li><strong>Статистика</strong> - статистика по письмам</li>
+        <li><strong>Главная</strong> - эта страница</li>
+        <li><strong>Элементы</strong> - список элементов и форма для добавления новых</li>
+        <li><strong>О приложении</strong> - информация о приложении</li>
     </ul>
 </div>
 
 <div class="card">
     <h2>Статистика</h2>
-    <p>Всего писем: <strong>{{ stats.total_emails }}</strong></p>
-    <p>Обработано: <strong>{{ stats.processed_emails }}</strong></p>
-    <p>Не обработано: <strong>{{ stats.unprocessed_emails }}</strong></p>
-    
-    <h3>Топ отправителей:</h3>
-    <ul>
-        {% for sender in stats.top_senders %}
-        <li>{{ sender.sender }} ({{ sender.count }} писем)</li>
-        {% endfor %}
-    </ul>
+    <p>Всего элементов: <strong>{{ item_count }}</strong></p>
 </div>
 {% endblock %}
     

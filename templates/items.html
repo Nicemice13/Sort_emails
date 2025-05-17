@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+
+{% block title %}Simple FastAPI App - Элементы{% endblock %}
+
+{% block header %}Элементы{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Добавить новый элемент</h2>
+    <form action="/items" method="post">
+        <div class="form-group">
+            <label for="title">Название:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea id="description" name="description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn">Добавить</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Список элементов</h2>
+    {% for item in items %}
+    <div class="item">
+        <div class="item-title">{{ item.title }}</div>
+        <div class="item-description">{{ item.description }}</div>
+    </div>
+    {% else %}
+    <p>Элементов пока нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+    

@@ -4,20 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Email Manager{% endblock %}</title>
+    <title>{% block title %}Simple FastAPI App{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="nav">
         <a href="/" class="{{ 'active' if request.url.path == '/' else '' }}">Главная</a>
-        <a href="/emails" class="{{ 'active' if request.url.path == '/emails' else '' }}">Письма</a>
-        <a href="/categories" class="{{ 'active' if request.url.path == '/categories' else '' }}">Категории</a>
-        <a href="/stats" class="{{ 'active' if request.url.path == '/stats' else '' }}">Статистика</a>
+        <a href="/items" class="{{ 'active' if request.url.path == '/items' else '' }}">Элементы</a>
+        <a href="/about" class="{{ 'active' if request.url.path == '/about' else '' }}">О приложении</a>
     </div>
     
     <div class="container">
         <div class="header">
-            <h1>{% block header %}Email Manager{% endblock %}</h1>
+            <h1>{% block header %}Simple FastAPI App{% endblock %}</h1>
         </div>
         
         <div class="content">

@@ -5,57 +5,399 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
             background-color: #f5f5f5;
-        }
-        h1 {
             color: #333;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+            display: flex;
+            min-height: 100vh;
         }
-        .email {
-            background-color: white;
-            border-radius: 5px;
-            padding: 15px;
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+        }
+        .logo {
+            padding: 0 20px 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #34495e;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        .subject {
+        .compose-btn {
+            margin: 0 20px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 0;
+            width: calc(100% - 40px);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+        .compose-btn:hover {
+            background-color: #2980b9;
+        }
+        .nav-section {
+            margin-bottom: 15px;
+        }
+        .nav-header {
+            padding: 5px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #95a5a6;
+            font-weight: bold;
+        }
+        .nav-item {
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .nav-item:hover, .nav-item.active {
+            background-color: #34495e;
+        }
+        .nav-item.active {
+            border-left: 3px solid #3498db;
+        }
+        .badge {
+            background-color: #3498db;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-box {
+            flex: 1;
+            max-width: 600px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .email-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .email-list {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .email-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .email-item:hover {
+            background-color: #f9f9f9;
+        }
+        .email-checkbox {
+            margin-right: 15px;
+        }
+        .email-star {
+            margin-right: 15px;
+            color: #bdc3c7;
             font-size: 18px;
+        }
+        .email-star.starred {
+            color: #f1c40f;
+        }
+        .email-content {
+            flex: 1;
+        }
+        .email-sender {
             font-weight: bold;
             margin-bottom: 5px;
         }
-        .meta {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 10px;
+        .email-subject {
+            margin-bottom: 5px;
         }
-        .body {
-            white-space: pre-line;
-            line-height: 1.5;
+        .email-preview {
+            color: #7f8c8d;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .email-meta {
+            min-width: 100px;
+            text-align: right;
+        }
+        .email-date {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        .email-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .action-group {
+            display: flex;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            margin-right: 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .action-btn:hover {
+            color: #2c3e50;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            background-color: #f9f9f9;
+        }
+        .page-btn {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .page-btn.active {
+            color: #3498db;
+            font-weight: bold;
+        }
+        /* Стили для чекбоксов, чтобы они не мешали кликам */
+        .email-checkbox, .email-star {
+            pointer-events: auto;
+        }
+        .email-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex: 1;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-    <h1>{{ title }}</h1>
+    <!-- Боковая панель -->
+    <div class="sidebar">
+        <div class="logo">Email Manager</div>
+        <div class="compose-btn">Написать</div>
 
-    {% for email in emails %}
-    <div class="email">
-        <div class="subject">{{ email.subject }}</div>
-        <div class="meta">
-            <strong>От:</strong> {{ email.sender }} |
-            <strong>Дата:</strong> {{ email.date }}
+        <div class="nav-section">
+            <div class="nav-header">Почтовые ящики</div>
+            <!-- Динамически генерируем список почтовых ящиков -->
+            {% set email_accounts = {} %}
+            {% for email in emails %}
+                {% set recipient = email.sender.split('@')[1].split('>')[0] if '@' in email.sender and '>' in email.sender else 'other' %}
+                {% if recipient not in email_accounts %}
+                    {% set _ = email_accounts.update({recipient: 1}) %}
+                {% else %}
+                    {% set _ = email_accounts.update({recipient: email_accounts[recipient] + 1}) %}
+                {% endif %}
+            {% endfor %}
+
+            <!-- Выводим все почтовые ящики -->
+            <div class="nav-item active" onclick="filterEmails('all')">
+                <span>Все</span>
+                <span class="badge">{{ emails|length }}</span>
+            </div>
+
+            {% for account, count in email_accounts.items() %}
+            <div class="nav-item" onclick="filterEmails('{{ account }}')">
+                <span>{{ account }}</span>
+                <span class="badge">{{ count }}</span>
+            </div>
+            {% endfor %}
         </div>
-        <div class="body">
-            {{ email.body[:500] }}{% if email.body|length > 500 %}...{% endif %}
+
+        <div class="nav-section">
+            <div class="nav-header">Папки</div>
+            <div class="nav-item active">
+                <span>Входящие</span>
+                <span class="badge">{{ emails|length }}</span>
+            </div>
+            <div class="nav-item">
+                <span>Отправленные</span>
+            </div>
+            <div class="nav-item">
+                <span>Черновики</span>
+            </div>
+            <div class="nav-item">
+                <span>Спам</span>
+            </div>
+            <div class="nav-item">
+                <span>Корзина</span>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-header">Категории</div>
+            <div class="nav-item">
+                <span>Важное</span>
+            </div>
+            <div class="nav-item">
+                <span>Работа</span>
+            </div>
+            <div class="nav-item">
+                <span>Личное</span>
+            </div>
         </div>
     </div>
-    {% else %}
-    <p>Писем не найдено.</p>
-    {% endfor %}
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <!-- Верхняя панель -->
+        <div class="header">
+            <input type="text" class="search-box" placeholder="Поиск писем..." onkeyup="searchEmails(this.value)">
+            <div class="user-profile">
+                <div class="user-avatar">U</div>
+                <span>Пользователь</span>
+            </div>
+        </div>
+
+        <!-- Контейнер для писем -->
+        <div class="email-container">
+            <!-- Панель действий -->
+            <div class="email-actions">
+                <div class="action-group">
+                    <button class="action-btn">Выбрать все</button>
+                    <button class="action-btn">Обновить</button>
+                </div>
+                <div class="action-group">
+                    <button class="action-btn">Архивировать</button>
+                    <button class="action-btn">Удалить</button>
+                    <button class="action-btn">Пометить как прочитанное</button>
+                </div>
+            </div>
+
+            <!-- Список писем -->
+            <div class="email-list" id="email-list">
+                {% for email in emails %}
+                <div class="email-item" data-account="{{ email.sender.split('@')[1].split('>')[0] if '@' in email.sender and '>' in email.sender else 'other' }}">
+                    <input type="checkbox" class="email-checkbox" onclick="event.stopPropagation()">
+                    <div class="email-star" onclick="toggleStar(this); event.stopPropagation()">★</div>
+                    <a href="/email/{{ email.id }}" class="email-link">
+                        <div class="email-content">
+                            <div class="email-sender">{{ email.sender.split('<')[0] }}</div>
+                            <div class="email-subject">{{ email.subject }}</div>
+                            <div class="email-preview">{{ email.body[:100] }}{% if email.body|length > 100 %}...{% endif %}</div>
+                        </div>
+                        <div class="email-meta">
+                            <div class="email-date">{{ email.date.split(' ')[0] }}</div>
+                        </div>
+                    </a>
+                </div>
+                {% else %}
+                <div style="padding: 30px; text-align: center; color: #7f8c8d;">
+                    Писем не найдено
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Пагинация -->
+            <div class="pagination">
+                <button class="page-btn">←</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">→</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функция для фильтрации писем по почтовому ящику
+        function filterEmails(account) {
+            // Получаем все элементы писем
+            const emails = document.querySelectorAll('.email-item');
+
+            // Обновляем активный элемент в боковой панели
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Показываем или скрываем письма в зависимости от выбранного аккаунта
+            emails.forEach(email => {
+                if (account === 'all' || email.dataset.account === account) {
+                    email.style.display = 'flex';
+                } else {
+                    email.style.display = 'none';
+                }
+            });
+        }
+
+        // Функция для поиска писем
+        function searchEmails(query) {
+            query = query.toLowerCase();
+            const emails = document.querySelectorAll('.email-item');
+
+            emails.forEach(email => {
+                const sender = email.querySelector('.email-sender').textContent.toLowerCase();
+                const subject = email.querySelector('.email-subject').textContent.toLowerCase();
+                const preview = email.querySelector('.email-preview').textContent.toLowerCase();
+
+                if (sender.includes(query) || subject.includes(query) || preview.includes(query)) {
+                    email.style.display = 'flex';
+                } else {
+                    email.style.display = 'none';
+                }
+            });
+        }
+
+        // Функция для переключения звездочки
+        function toggleStar(element) {
+            element.classList.toggle('starred');
+            if (element.classList.contains('starred')) {
+                element.style.color = '#f1c40f';
+            } else {
+                element.style.color = '#bdc3c7';
+            }
+        }
+    </script>
 </body>
 </html>
